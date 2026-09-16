@@ -1,0 +1,17 @@
+.draftCard{margin-top:14px;padding:17px 18px;display:flex;align-items:center;gap:14px;border-color:#9ac9d6;background:linear-gradient(135deg,#eef8fb,#fff)}
+.draftCard .draftText{flex:1}.draftCard strong{display:block;margin-bottom:4px}.draftCard p{margin:0;color:var(--muted);font-size:13px}
+@media(max-width:620px){
+ body{padding-bottom:env(safe-area-inset-bottom);-webkit-tap-highlight-color:transparent}
+ .topin{height:58px;padding-left:max(11px,env(safe-area-inset-left));padding-right:max(11px,env(safe-area-inset-right));gap:8px}
+ .logo{width:34px;height:34px;border-radius:10px}.brand{font-size:14px;line-height:1.25}.topbtn{min-height:42px;padding:8px 11px}
+ main{padding:14px max(10px,env(safe-area-inset-right)) calc(78px + env(safe-area-inset-bottom)) max(10px,env(safe-area-inset-left))}
+ .heroMain{padding:22px 18px}.heroMain h1{font-size:34px}.heroMain p{font-size:15px}.heroBtns{display:grid;grid-template-columns:1fr 1fr}.heroBtns .accent{grid-column:1/-1}
+ .btn,.opt,select,input{min-height:44px}.btn{padding:11px 13px}.stats{padding:18px}.big{font-size:42px}
+ .audit{padding:14px}.sectionHead{align-items:flex-start}.chapter{min-height:0;padding:16px}.chapterFoot{margin-top:6px}
+ .review{padding:16px}.reviewNav{display:flex;overflow-x:auto;padding-bottom:4px;scroll-snap-type:x proximity}.reviewNav button{min-width:76px;text-align:center;scroll-snap-align:start}
+ .browse{padding:16px}.browseResults{max-height:none}.modal{padding:10px}.modalBox{max-height:calc(100dvh - 20px);padding:18px;border-radius:18px}
+ .examSticky{top:58px;padding:6px 0}.examBar{gap:7px;padding:8px;border-radius:13px}.examBar .btn{min-width:62px;padding:8px 10px}.examBar .timer{font-size:12px}.progressMeta{font-size:11px}
+ .qcard{padding:15px 13px;margin:9px 0;border-radius:16px}.qtext{font-size:17px;line-height:1.65}.opts{gap:9px}.opt{padding:12px 11px;line-height:1.5}.opt input{width:20px;height:20px;flex:0 0 auto}.olabel{font-size:16px}
+ .bottomActions{position:fixed;left:8px;right:8px;bottom:max(8px,env(safe-area-inset-bottom));z-index:45;margin:0;padding:8px;border-radius:14px}.bottomActions .left{display:none}.bottomActions>.primary{width:100%}
+ .result{padding:16px}.draftCard{align-items:stretch;flex-direction:column}.draftCard .btn{width:100%}
+}
