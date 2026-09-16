@@ -1,0 +1,20 @@
+{
+  "name": "經濟學 1–8 章｜848 題行動題庫",
+  "short_name": "經濟學題庫",
+  "description": "經濟學第 1～8 章完整 848 題，支援分章練習、總複習、錯題重練與離線作答。",
+  "lang": "zh-Hant",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#f4f7fb",
+  "theme_color": "#0a4f6c",
+  "icons": [
+    {
+      "src": "favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
