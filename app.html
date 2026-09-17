@@ -284,7 +284,7 @@ function uxRenderDashboard2(){const attempts=uxAllAttempts(),pending=uxPendingLi
 uxRenderDashboard=uxRenderDashboard2;
 function uxOpenDashboard2(){uxOpenProfile()}
 uxOpenDashboard=uxOpenDashboard2;
-const uxLegacyRenderProfile=uxRenderProfile;function uxRenderProfile2(){uxLegacyRenderProfile();uxEl("profileAdvice")?.closest(".profileSection")?.remove();const p=uxEl("profileModal")?.querySelector(".historyToolbar p");if(p)p.textContent="帳號、作答統計、章節掌握度與錯題集中在這裡。"}
+const uxLegacyRenderProfile=uxRenderProfile;function uxRenderProfile2(){uxLegacyRenderProfile();const advice=uxEl("profileAdvice");if(advice)advice.closest(".profileSection")?.classList.add("hidden");const p=uxEl("profileModal")?.querySelector(".historyToolbar p");if(p)p.textContent="帳號、作答統計、章節掌握度與錯題集中在這裡。"}
 uxRenderProfile=uxRenderProfile2;
 uxEl("pendingItems")?.addEventListener("click",e=>{const c=e.target.closest("[data-pending-continue]"),d=e.target.closest("[data-pending-discard]");if(c)uxContinue2(c.dataset.pendingContinue);if(d&&confirm("確定放棄這份未完成練習？作答進度將會刪除。"))uxClearPending2(d.dataset.pendingDiscard)});
 uxEl("continuePending").onclick=()=>{const p=uxPendingList()[0];if(p)uxContinue2(uxPendingId(p))};uxEl("discardPending").onclick=()=>{const p=uxPendingList()[0];if(p&&confirm("確定放棄這份未完成練習？作答進度將會刪除。"))uxClearPending2(uxPendingId(p))};uxEl("startExam").onclick=uxBegin2;uxEl("submitBtn").onclick=uxSubmit2;uxEl("exitBtn").onclick=uxExit2;uxEl("repeatBtn").onclick=uxRepeat2;uxEl("dashboardTop").onclick=uxOpenDashboard2;uxEl("profileTop").onclick=uxOpenProfile;uxEl("profileTop").textContent="個人中心";uxEl("mobileNav")?.querySelector('[data-mobile-nav="profile"]')?.lastChild;
