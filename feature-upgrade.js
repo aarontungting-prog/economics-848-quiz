@@ -736,4 +736,15 @@
   window.addEventListener("beforeunload", () => { if (cur.qs?.length && !cur.submitted) savePending(); persistCurrentScope(); });
   uxRenderDashboard();
   uxRenderPending();
+
+  // Keep the original single-file question bank intact while loading the
+  // optional learning-home enhancements as a separate, cacheable module.
+  const enhancementCss = document.createElement("link");
+  enhancementCss.rel = "stylesheet";
+  enhancementCss.href = "learning-enhancements.css?v=20260923a";
+  document.head.appendChild(enhancementCss);
+  const enhancementScript = document.createElement("script");
+  enhancementScript.src = "learning-enhancements.js?v=20260923a";
+  enhancementScript.defer = true;
+  document.body.appendChild(enhancementScript);
 })();

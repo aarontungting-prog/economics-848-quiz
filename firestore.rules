@@ -22,6 +22,38 @@ service cloud.firestore {
         allow create, update: if isOwner(userId)
           && request.resource.data.uid == userId;
       }
+
+      // Small, account-owned preferences such as wrong-question overrides.
+      match /studySettings/{settingId} {
+        allow read, delete: if isOwner(userId);
+        allow create, update: if isOwner(userId)
+          && request.resource.data.uid == userId;
+      }
+
+      // Lecture metadata and every page's vector notes remain private to owner.
+      match /lectureNotes/{lectureId} {
+        allow read, delete: if isOwner(userId);
+        allow create, update: if isOwner(userId)
+          && request.resource.data.uid == userId;
+
+        match /pages/{pageId} {
+          allow read, delete: if isOwner(userId);
+          allow create, update: if isOwner(userId)
+            && request.resource.data.uid == userId;
+        }
+      }
+    }
+
+    // A share uses an unguessable document id. It is get-only (never listable),
+    // and the owner explicitly creates or revokes it from the reader.
+    match /sharedLectureNotes/{shareId} {
+      allow get: if true;
+      allow list: if false;
+      allow create: if request.auth != null
+        && request.resource.data.ownerUid == request.auth.uid;
+      allow update, delete: if request.auth != null
+        && resource.data.ownerUid == request.auth.uid
+        && request.resource.data.ownerUid == request.auth.uid;
     }
 
     match /{document=**} {

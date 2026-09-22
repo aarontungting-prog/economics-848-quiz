@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>經濟學學習首頁</title>
+  <link rel="stylesheet" href="study-home.css">
+</head>
+<body class="landing-loading">
+  <header class="top"><div class="topin"><div class="logo">E</div><div class="brand">經濟學學習首頁</div><div class="grow"></div><span class="syncLamp pending" id="homeSyncLamp"><i></i><span>確認登入中…</span></span><button class="textBtn" id="logout">登出</button></div></header>
+  <main>
+    <section class="hero card"><div class="kicker">ECONOMICS STUDY SPACE</div><h1>今天想怎麼複習？</h1><p>選擇教材後開始。題庫與講義各自保有你的個人進度、錯題、筆記與學習紀錄。</p></section>
+    <section class="chooser" aria-label="選擇學習教材">
+      <a class="choiceCard question" href="app.html"><span class="choiceIcon">✓</span><div><span class="eyebrow">QUESTION BANK</span><h2>經濟學第 1～8 章完整題庫</h2><p>分章測驗、總複習、自訂練習、錯題重練、歷史紀錄與學習統計。</p><span class="open">進入題庫 →</span></div></a>
+      <a class="choiceCard lecture" href="lectures.html"><span class="choiceIcon">✎</span><div><span class="eyebrow">LECTURES & NOTES</span><h2>經濟學第 1～8 章講義</h2><p>閱讀英文或繁體中文講義，在每頁直接書寫、標記、輸入文字與同步筆記。</p><span class="open">進入講義 →</span></div></a>
+    </section>
+    <p class="footnote" id="accountNote"></p>
+  </main>
+  <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-auth-compat.js"></script>
+  <script>
+  (()=>{const cfg={apiKey:"AIzaSyCxPppnUG864v3E2j1OzykzFmhLpsEJCSE",authDomain:"chess-1885a.firebaseapp.com",projectId:"chess-1885a",appId:"1:824383572856:web:7c663d6bf0f970f6acd68d"};const lamp=document.querySelector('#homeSyncLamp'),note=document.querySelector('#accountNote');const guest=localStorage.getItem('econGuestMode')==='1';const set=(kind,msg)=>{lamp.className='syncLamp '+kind;lamp.lastElementChild.textContent=msg};try{firebase.initializeApp(cfg);const auth=firebase.auth();auth.onAuthStateChanged(user=>{if(!user&&!guest){location.replace('index.html');return}document.body.classList.remove('landing-loading');set(user?'saved':'local',user?'已登入，可雲端同步':'訪客模式：資料僅儲存在此瀏覽器');note.textContent=user?'已登入帳號。所有題庫、講義與筆記資料只會存取此帳號的資料。':'訪客模式可體驗功能；登入帳號後才會跨裝置同步。';document.querySelector('#logout').textContent=user?'登出':'返回登入';document.querySelector('#logout').onclick=()=>user?auth.signOut().finally(()=>location.replace('index.html')):location.replace('index.html')})}catch(e){if(!guest){location.replace('index.html');return}document.body.classList.remove('landing-loading');set('local','訪客模式：本機已儲存');note.textContent='目前未連線 Firebase，訪客資料只會留在這個瀏覽器。'}})();
+  </script>
+</body>
+</html>
