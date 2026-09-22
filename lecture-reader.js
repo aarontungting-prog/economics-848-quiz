@@ -2,7 +2,7 @@ import * as pdfjsLib from 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38
 
 pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.worker.min.mjs';
 
-const config={apiKey:'AIzaSyCxPppnUG864v3E2jOzykzFmhLpsEJCSE',authDomain:'chess-1885a.firebaseapp.com',projectId:'chess-1885a',appId:'1:824383572856:web:7c663d6bf0f970f6acd68d'};
+const config={apiKey:'AIzaSyCxPppnUG864v3E2j1OzykzFmhLpsEJCSE',authDomain:'chess-1885a.firebaseapp.com',projectId:'chess-1885a',appId:'1:824383572856:web:7c663d6bf0f970f6acd68d'};
 const sources={
  'ch1-2-en':{title:'第 1～2 章｜英文版講義',src:'lectures/economics-ch1-2-en.pdf'},
  'ch3-4-en':{title:'第 3～4 章｜英文版講義',src:'lectures/economics-ch3-4-en.pdf'},
