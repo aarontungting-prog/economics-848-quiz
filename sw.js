@@ -1,4 +1,4 @@
-const CACHE = "econ-848-v2";
+const CACHE = "econ-848-v3";
 const CORE = ["./", "./index.html", "./manifest.webmanifest", "./favicon.svg"];
 
 self.addEventListener("install", event => {
