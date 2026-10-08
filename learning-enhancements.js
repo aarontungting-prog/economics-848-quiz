@@ -90,13 +90,6 @@
     const id = button.dataset.wrongToggle; setWrongOverride(id, wrongOverrides[id] === 'remove' ? 'keep' : 'remove');
   });
 
-  const baseDetail = detailHTML;
-  detailHTML = function detailedExplanation(question, submitted) {
-    const original = baseDetail(question, submitted), kit = chapterNotes[question.chapter] || chapterNotes[1];
-    const choices = question.options.map((option, index) => `<li class="${question.labels[index] === question.answer ? 'rightChoice' : ''}"><b>${question.labels[index]}.</b> ${esc(option)}${question.labels[index] === question.answer ? '：符合題幹的核心關係。' : '：請回到題幹條件，比較它是否符合正確的經濟關係。'}</li>`).join('');
-    return `${original}<section class="expandedExplain"><h4>考點</h4><p>${esc(kit.core.join('　'))}</p><h4>解題關鍵</h4><p>${esc(question.aiExplanation || '先找出題幹中的變數、方向與限制，再以本章定義判斷。')}</p><h4>正確答案解析</h4><p>正解為 <b>${esc(answerText(question))}</b>。請將題幹逐一對照本章的定義、公式或圖形判讀。</p><h4>選項檢核</h4><ul>${choices}</ul><h4>觀念補充／公式／圖形判讀</h4><p>${esc(kit.formula.join('　'))}<br>${esc(kit.graph.join('　'))}</p><h4>易錯提醒</h4><p>${esc(kit.traps.join('　'))}</p></section>`;
-  };
-
   function renderChapterNotes(chapter = 1) {
     const nav = q('reviewNav'), body = q('reviewBody'), kit = chapterNotes[chapter]; if (!nav || !body || !kit) return;
     nav.innerHTML = ''; for (let i = 1; i <= 8; i++) { const button = document.createElement('button'); button.textContent = `第 ${i} 章`; button.className = i === Number(chapter) ? 'on' : ''; button.onclick = () => renderChapterNotes(i); nav.append(button); }
@@ -107,7 +100,7 @@
 
   function addWrongModal() {
     if (q('wrongConfig')) return;
-    document.body.insertAdjacentHTML('beforeend', `<div class="modal" id="wrongConfig"><div class="modalBox wrongConfigBox"><h2>錯題重練設定</h2><p class="customHint">錯題會保留到同一題連續答對 2 次，或你手動移除為止。</p><div class="field"><label>章節範圍</label><div class="wrongChapters"><label><input type="checkbox" value="all" checked> 全部章節</label>${Array.from({length:8},(_,i)=>`<label><input type="checkbox" value="${i+1}" checked> 第 ${i+1} 章</label>`).join('')}</div></div><div class="formgrid"><div class="field"><label>題數</label><input id="wrongCount" type="number" min="1" placeholder="例如 5～10 題"><div class="quickCounts"><button type="button" data-count="5">5 題</button><button type="button" data-count="10">10 題</button><button type="button" data-count="20">20 題</button><button type="button" data-count="all">全部</button></div></div><div class="field"><label>題型</label><div class="checks" id="wrongTypes">${Object.entries(TYPE_LABELS).map(([id,label])=>`<label><input type="checkbox" value="${id}" checked> ${label}</label>`).join('')}</div></div><div class="field"><label>依據</label><select id="wrongBasis"><option value="all">全部錯題</option><option value="recent">最近答錯</option><option value="most">錯誤次數最多</option><option value="oldest">最久沒複習</option></select></div><div class="field"><label>題目順序</label><select id="wrongOrder"><option value="shuffle">隨機</option><option value="source">依原題號</option></select></div><div class="field"><label>作答模式</label><select id="wrongMode"><option value="exam">考試模式：交卷後看答案</option><option value="review">練習模式：作答後立即看詳解</option></select></div></div><p class="wrongCountHint" id="wrongCountHint"></p><div class="modalFoot"><button class="btn secondary" id="cancelWrongConfig">取消</button><button class="btn primary" id="beginWrongConfig">開始錯題重練</button></div></div></div>`);
+    document.body.insertAdjacentHTML('beforeend', `<div class="modal" id="wrongConfig"><div class="modalBox wrongConfigBox"><h2>錯題重練設定</h2><p class="customHint">錯題會保留到同一題連續答對 2 次，或你手動移除為止。</p><div class="field"><label>章節範圍</label><div class="wrongChapters"><label><input type="checkbox" value="all" checked> 全部章節</label>${Array.from({length:8},(_,i)=>`<label><input type="checkbox" value="${i+1}" checked> 第 ${i+1} 章</label>`).join('')}</div></div><div class="formgrid"><div class="field"><label>題數</label><input id="wrongCount" type="number" min="1" placeholder="例如 5～10 題"><div class="quickCounts"><button type="button" data-count="5">5 題</button><button type="button" data-count="10">10 題</button><button type="button" data-count="20">20 題</button><button type="button" data-count="all">全部</button></div></div><div class="field"><label>題型</label><div class="checks" id="wrongTypes">${Object.entries(TYPE_LABELS).map(([id,label])=>`<label><input type="checkbox" value="${id}" checked> ${label}</label>`).join('')}</div></div><div class="field"><label>依據</label><select id="wrongBasis"><option value="all">全部錯題</option><option value="recent">最近答錯</option><option value="most">錯誤次數最多</option><option value="oldest">最久沒複習</option></select></div><div class="field"><label>題目順序</label><select id="wrongOrder"><option value="shuffle">隨機</option><option value="source">依原題號</option></select></div><div class="field"><label>作答模式</label><select id="wrongMode"><option value="exam">考試模式：交卷後看答案</option><option value="review">練習模式：作答後立即對答案</option></select></div></div><p class="wrongCountHint" id="wrongCountHint"></p><div class="modalFoot"><button class="btn secondary" id="cancelWrongConfig">取消</button><button class="btn primary" id="beginWrongConfig">開始錯題重練</button></div></div></div>`);
     q('cancelWrongConfig').onclick = () => q('wrongConfig').classList.remove('show');
     q('wrongConfig').onclick = event => { if (event.target.id === 'wrongConfig') q('wrongConfig').classList.remove('show'); };
     q('wrongConfig').querySelectorAll('[data-count]').forEach(button => button.onclick = () => { q('wrongCount').value = button.dataset.count === 'all' ? '' : button.dataset.count; q('wrongCount').dataset.all = button.dataset.count === 'all' ? '1' : ''; updateWrongHint(); });
@@ -148,4 +141,49 @@
   q('qList').addEventListener('change', () => setTimeout(addQuestionStats, 0));
   uxAuth?.onAuthStateChanged(async () => { injectHeader(); await loadPrefs(); patchWrongButtons(); renderChapterNotes(1); });
   injectHeader(); addWrongModal(); patchWrongButtons();
+
+  // Answer-only mode: keep question, selected answer, result, and answer key;
+  // never render the former original or generated explanations.
+  detailHTML = function answerOnlyDetail(question) {
+    const correct = question.user === question.answer;
+    const your = question.user
+      ? ((question.section === 'tf' || question.section === 'draw_tf')
+        ? (question.user === 'O' ? '○ 正確' : '× 錯誤')
+        : `${question.user}. ${question.options[question.labels.indexOf(question.user)]}`)
+      : '未作答';
+    return `<div class="${correct ? 'ansGood' : 'ansBad'}">${correct ? '✓ 正確' : '✕ 錯誤'}｜你的答案：${esc(your)}</div><div class="ansGood">題庫正解：${esc(answerText(question))}</div>`;
+  };
+
+  renderBrowse = function answerOnlyBrowse() {
+    const chapter = q('browseCh'), term = q('searchBox').value.trim().toLowerCase(), section = q('browseSec').value;
+    if (chapter.options.length === 1) for (let i = 1; i <= 8; i++) chapter.add(new Option(`第 ${i} 章`, i));
+    const rows = QUESTIONS.filter(question => (chapter.value === 'all' || question.chapter == chapter.value) && (section === 'all' || question.section === section) && (!term || `${question.stem} ${question.options.join(' ')}`.toLowerCase().includes(term)));
+    q('browseResults').innerHTML = `<div class="small muted">找到 ${rows.length} 題</div>${rows.slice(0, 250).map(question => `<details class="browseItem"><summary>第 ${question.chapter} 章｜${question.sectionName}｜原題 ${question.sourceNo}：${esc(question.stem).slice(0, 110)}${question.stem.length > 110 ? '…' : ''}</summary><div class="browseAnswer"><b>題庫正解：</b>${esc(answerText(question))}</div></details>`).join('')}${rows.length > 250 ? '<div class="small muted">為避免一次載入過多，總覽先顯示前 250 題；請縮小搜尋範圍。</div>' : ''}`;
+  };
+
+  uxShowHistory = function answerOnlyHistory(ts) {
+    const attempt = uxAllAttempts().find(row => Number(row.ts) === Number(ts)); if (!attempt) return;
+    const details = uxDetails(attempt), total = Number(attempt.total ?? details.length), correct = Number(attempt.correct ?? details.filter(row => row.correct).length);
+    q('historyDetail').classList.remove('hidden'); q('historyDetailTitle').textContent = attempt.title || '作答詳情';
+    q('historyDetailMeta').textContent = `${uxFormatDate(attempt.ts)}｜${correct}/${total} 題正確｜${attempt.percent ?? (total ? Math.round(correct / total * 100) : 0)}%｜答錯／未答 ${Math.max(0, total - correct)} 題｜作答時間 ${uxFormatDuration(attempt.seconds)}`;
+    q('historyQuestionList').innerHTML = details.map((detail, index) => {
+      const question = uxQuestion(detail.id), your = uxOptionValue(question, detail.user), answer = uxOptionValue(question, question?.answer);
+      const options = question ? question.options.map((text, optionIndex) => {
+        const label = question.labels?.[optionIndex] || String.fromCharCode(65 + optionIndex), selected = detail.user === label, isCorrect = question.answer === label;
+        return `<div class="optionLine ${selected ? 'selected' : ''} ${isCorrect ? 'correctOption' : ''}"><span class="optionTag">${esc(label)}</span>${esc(text)}${selected ? '　（我的答案）' : ''}${isCorrect ? '　（正確答案）' : ''}</div>`;
+      }).join('') : '<div class="small muted">目前題庫找不到這一題的選項。</div>';
+      return `<article class="historyQuestion ${detail.correct ? 'good' : 'bad'}"><div class="hqMeta">第 ${index + 1} 題｜第 ${detail.chapter || question?.chapter || '—'} 章｜${detail.sectionName || question?.sectionName || '題目'}｜原題號 ${detail.sourceNo || question?.sourceNo || '—'}</div><p><strong>${esc(question?.stem || '題目內容已不在目前題庫')}</strong></p><div class="answerGrid"><div class="answerBox"><strong>我的答案</strong>${esc(your)}</div><div class="answerBox"><strong>正確答案</strong>${esc(answer)}</div></div><p class="${detail.correct ? 'ansGood' : 'ansBad'}">${detail.correct ? '✓ 答對' : '✕ 答錯／未答'}</p>${question ? `<div class="optionList"><strong>所有選項</strong>${options}</div>` : ''}</article>`;
+    }).join('');
+    q('historyDetail').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
+
+  function applyAnswerOnlyCopy() {
+    q('submitBtn').textContent = '交卷並對答案';
+    const hero = document.querySelector('.heroMain p'); if (hero) hero.textContent = '可分章、分題型、混合總複習；交卷後逐題顯示你的答案與題庫正解。';
+    const footer = document.querySelector('footer'); if (footer) footer.textContent = '題目與題庫答案取自郭文忠老師提供的《Chapter 1-8 習題題庫.pdf》。訪客紀錄只存於目前瀏覽器；登入會員後會同步至 Firebase。';
+    [['modeSel', 'review'], ['customMode', 'review'], ['wrongMode', 'review']].forEach(([id, value]) => { const option = q(id)?.querySelector(`option[value="${value}"]`); if (option) option.textContent = '練習模式：作答後立即對答案'; });
+    const historyIntro = q('historyModal')?.querySelector('.historyToolbar p'); if (historyIntro) historyIntro.textContent = '查看每次練習的成績、完整題目、作答結果與正確答案。';
+  }
+  applyAnswerOnlyCopy(); renderBrowse();
 })();
+
